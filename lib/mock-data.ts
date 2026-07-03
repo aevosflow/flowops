@@ -9,7 +9,7 @@ import {
 } from "./types";
 
 export const FOUNDERS: Founder[] = [
-  { id: "abdul", name: "Abdul Rehman", role: "Co-Founder", avatarInitials: "AR" },
+  { id: "abdul rehman", name: "Abdul Rehman", role: "Co-Founder", avatarInitials: "AR" },
   { id: "shaheer", name: "Shaheer Khan", role: "Co-Founder", avatarInitials: "SK" },
   { id: "haseeb", name: "Haseeb Ur Rehman", role: "Co-Founder", avatarInitials: "HR" },
 ];
