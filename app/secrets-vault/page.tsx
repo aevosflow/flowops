@@ -1,3 +1,5 @@
+"use client";
+
 import { RotateCw, Plus, ShieldCheck } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/Card";
