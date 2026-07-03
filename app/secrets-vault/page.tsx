@@ -15,10 +15,22 @@ export default function SecretsVaultPage() {
             <ShieldCheck className="h-3.5 w-3.5" /> Encrypted Environment
           </span>
           <div className="flex gap-2">
-            <button className="flex items-center gap-1.5 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-900">
+            <button
+              onClick={() => {
+                // In production, this would trigger a modal to confirm key rotation
+                console.log("Rotating all keys...");
+              }}
+              className="flex items-center gap-1.5 rounded-lg border border-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-300 hover:bg-zinc-900 transition-colors"
+            >
               <RotateCw className="h-3.5 w-3.5" /> Rotate Keys
             </button>
-            <button className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-black hover:bg-emerald-400">
+            <button
+              onClick={() => {
+                // In production, this would open a modal to create a new secret
+                console.log("Creating new secret...");
+              }}
+              className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-black hover:bg-emerald-400 transition-colors"
+            >
               <Plus className="h-3.5 w-3.5" /> New Secret
             </button>
           </div>
@@ -26,11 +38,21 @@ export default function SecretsVaultPage() {
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
           <div className="space-y-6">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {SECRETS.map((s) => (
-                <SecretCard key={s.id} secret={s} />
-              ))}
-            </div>
+            {SECRETS.length === 0 ? (
+              <Card className="p-8 text-center">
+                <ShieldCheck className="mx-auto h-8 w-8 text-zinc-600 mb-3" />
+                <p className="font-display text-sm font-semibold text-zinc-200">No secrets yet</p>
+                <p className="mt-1 text-xs text-zinc-500">
+                  Environment variables and API credentials will be managed here.
+                </p>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {SECRETS.map((s) => (
+                  <SecretCard key={s.id} secret={s} />
+                ))}
+              </div>
+            )}
 
             <Card className="p-4 sm:p-5">
               <h3 className="font-display text-sm font-semibold text-zinc-100">

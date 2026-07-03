@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff, Copy, Check } from "lucide-react";
+import { Eye, EyeOff, Copy, Check, RotateCw } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
 import { Secret } from "@/lib/types";
@@ -28,6 +28,11 @@ export function SecretCard({ secret }: { secret: Secret }) {
     setTimeout(() => setCopied(false), 1200);
   }
 
+  function handleRotate() {
+    // In production, this would trigger a Server Action to rotate the credential
+    console.log("Rotating credential:", secret.name);
+  }
+
   return (
     <Card className="p-4 sm:p-5">
       <div className="mb-2 flex items-center justify-between">
@@ -35,17 +40,26 @@ export function SecretCard({ secret }: { secret: Secret }) {
           <span className={cn("h-1.5 w-1.5 rounded-full", STATUS_DOT[secret.status])} />
           {secret.environment}
         </span>
-        <button
-          onClick={copyValue}
-          aria-label="Copy secret value"
-          className="rounded-md p-1 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200"
-        >
-          {copied ? (
-            <Check className="h-3.5 w-3.5 text-emerald-400" />
-          ) : (
-            <Copy className="h-3.5 w-3.5" />
-          )}
-        </button>
+        <div className="flex gap-1">
+          <button
+            onClick={handleRotate}
+            aria-label="Rotate credential"
+            className="rounded-md p-1 text-zinc-500 hover:bg-zinc-900 hover:text-emerald-400 transition-colors"
+          >
+            <RotateCw className="h-3.5 w-3.5" />
+          </button>
+          <button
+            onClick={copyValue}
+            aria-label="Copy secret value"
+            className="rounded-md p-1 text-zinc-500 hover:bg-zinc-900 hover:text-zinc-200 transition-colors"
+          >
+            {copied ? (
+              <Check className="h-3.5 w-3.5 text-emerald-400" />
+            ) : (
+              <Copy className="h-3.5 w-3.5" />
+            )}
+          </button>
+        </div>
       </div>
 
       <p className="fig mb-2 text-sm font-semibold text-zinc-100">{secret.name}</p>
@@ -58,7 +72,7 @@ export function SecretCard({ secret }: { secret: Secret }) {
           onClick={() => setRevealed((r) => !r)}
           onMouseLeave={() => setRevealed(false)}
           aria-label={revealed ? "Hide secret" : "Reveal secret"}
-          className="ml-2 shrink-0 text-zinc-500 hover:text-emerald-400"
+          className="ml-2 shrink-0 text-zinc-500 hover:text-emerald-400 transition-colors"
         >
           {revealed ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>

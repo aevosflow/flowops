@@ -6,6 +6,8 @@ import {
   FounderPayout,
   Secret,
   VaultActivityEvent,
+  Project,
+  AuditEvent,
 } from "./types";
 
 export const FOUNDERS: Founder[] = [
@@ -68,6 +70,10 @@ export const EXPENSE_CATEGORIES = [
 ] as const;
 
 export const CURRENCIES = ["USD", "EUR", "GBP", "PKR"] as const;
+
+export const PROJECTS: Project[] = [];
+
+export const AUDIT_EVENTS: AuditEvent[] = [];
 
 export function founderById(id: string): Founder | undefined {
   return FOUNDERS.find((f) => f.id === id);
