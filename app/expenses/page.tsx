@@ -8,10 +8,10 @@ export default function ExpensesPage() {
     <AppShell title="Expenses" subtitle="Track burn, claims, and vault capacity">
       <div className="space-y-6">
         <BurnStats
-          monthlyBurn={42_850}
-          burnDeltaPct={12}
-          pendingClaims={14}
-          vaultCapacityPct={89}
+          monthlyBurn={0}
+          burnDeltaPct={0}
+          pendingClaims={0}
+          vaultCapacityPct={0}
         />
         <ExpensesTable expenses={RECENT_EXPENSES} />
       </div>
