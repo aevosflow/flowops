@@ -56,7 +56,12 @@ export const COMPLIANCE_ITEMS: ComplianceItem[] = [
   { id: "c4", label: "Network Isolation", description: "VPC Peering Enabled", enabled: true },
 ];
 
-export const VAULT_ACTIVITY: VaultActivityEvent[] = [  "Marketing",
+export const VAULT_ACTIVITY: VaultActivityEvent[] = [];
+
+export const EXPENSE_CATEGORIES = [
+  "Infrastructure",
+  "Supplies",
+  "Marketing",
   "Cloud Infrastructure",
   "SaaS Subscriptions",
   "Travel & Meals",
