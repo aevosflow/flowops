@@ -86,3 +86,25 @@ export interface VaultActivityEvent {
   timestamp: string; // ISO timestamp
   status: VaultEventStatus;
 }
+
+export interface Project {
+  id: string;
+  name: string;
+  client: string;
+  status: "active" | "completed" | "on-hold";
+  budget: number;
+  spent: number;
+  currency: string;
+  startDate: string; // ISO timestamp
+  endDate?: string; // ISO timestamp
+  margin: number; // percentage
+}
+
+export interface AuditEvent {
+  id: string;
+  type: "expense_approved" | "expense_rejected" | "payout_distributed" | "secret_accessed" | "compliance_change";
+  description: string;
+  actor: string; // founder name or system
+  timestamp: string; // ISO timestamp
+  details?: Record<string, any>;
+}
