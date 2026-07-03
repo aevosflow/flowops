@@ -1,16 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import { FolderKanban, Plus } from "lucide-react";
 import { AppShell } from "@/components/layout/AppShell";
 import { Card } from "@/components/ui/Card";
+import { ProjectModal } from "@/components/projects/ProjectModal";
 import { PROJECTS } from "@/lib/mock-data";
 import { formatCurrency } from "@/lib/utils";
 
 export default function ProjectsPage() {
-  const projectCount = PROJECTS.length;
-  const totalBudget = PROJECTS.reduce((sum, p) => sum + p.budget, 0);
-  const totalSpent = PROJECTS.reduce((sum, p) => sum + p.spent, 0);
-  const avgMargin = projectCount > 0 ? Math.round(PROJECTS.reduce((sum, p) => sum + p.margin, 0) / projectCount) : 0;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [projects, setProjects] = useState(PROJECTS);
+
+  const projectCount = projects.length;
+  const totalBudget = projects.reduce((sum, p) => sum + p.budget, 0);
+  const totalSpent = projects.reduce((sum, p) => sum + p.spent, 0);
+  const avgMargin = projectCount > 0 ? Math.round(projects.reduce((sum, p) => sum + p.margin, 0) / projectCount) : 0;
+
+  function handleAddProject(payload: {
+    name: string;
+    client: string;
+    budget: number;
+    currency: string;
+    status: "active" | "completed" | "on-hold";
+  }) {
+    const newProject = {
+      id: `proj_${Date.now()}`,
+      name: payload.name,
+      client: payload.client,
+      budget: payload.budget,
+      spent: 0,
+      currency: payload.currency,
+      status: payload.status,
+      startDate: new Date().toISOString(),
+      margin: 0,
+    };
+    setProjects((prev) => [newProject, ...prev]);
+  }
 
   return (
     <AppShell title="Projects" subtitle="Client project cost attribution and margin analytics">
@@ -44,14 +70,17 @@ export default function ProjectsPage() {
               Project cost attribution will map client contracts against project-specific expenses, compute/API usage,
               and margin analytics per PRD Section 3.4.
             </p>
-            <button className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-black transition-colors hover:bg-emerald-400">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-black transition-colors hover:bg-emerald-400"
+            >
               <Plus className="h-4 w-4" />
               Add Project
             </button>
           </Card>
         ) : (
           <div className="grid gap-4">
-            {PROJECTS.map((project) => (
+            {projects.map((project) => (
               <Card key={project.id} className="p-4">
                 <div className="flex items-start justify-between">
                   <div>
@@ -78,6 +107,8 @@ export default function ProjectsPage() {
             ))}
           </div>
         )}
+
+        <ProjectModal open={modalOpen} onClose={() => setModalOpen(false)} onSubmit={handleAddProject} />
       </div>
     </AppShell>
   );
